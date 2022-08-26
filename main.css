@@ -9,6 +9,27 @@ body {
     margin: auto;
 }
 
+#portfolio {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#portfolio li {
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+#portfolio li:hover {
+    background: #eee;
+}
+
+#portfolio a {
+    text-decoration: none;
+    color: black;
+}
+
 /* navigation menu */
 nav {
     background: rgb(0, 0, 0);

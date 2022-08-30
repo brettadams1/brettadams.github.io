@@ -9,23 +9,23 @@ body {
     margin: auto;
 }
 
-#portfolio {
+.portfolio {
     list-style-type: none;
     padding-left: 0;
 }
 
-#portfolio li {
+.portfolio li {
     background: #fff;
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 10px;
 }
 
-#portfolio li:hover {
+.portfolio li:hover {
     background: #eee;
 }
 
-#portfolio a {
+.portfolio a {
     text-decoration: none;
     color: black;
 }

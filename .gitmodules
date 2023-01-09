@@ -1,0 +1,3 @@
+[submodule "projects/platformer"]
+	path = projects/platformer
+	url = https://github.com/OperationSpark/platformer.git

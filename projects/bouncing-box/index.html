@@ -15,10 +15,13 @@
 			display: block;
 			position: absolute;
 			top: 100px;
-			left: 0px;  /* <--- Change me! */
+			left: 20px;  /* <--- Change me! */
 		}
 		.board{
 			height: 100vh;
+		}
+		body {
+ 			background-image: url("images/DVD_logo.png");
 		}
 	</style>
 	<!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
@@ -48,8 +51,9 @@
 			box.on('click', handleBoxClick);
 
 			// moves the Box to a new position on the screen along the X-Axis
-			function moveBoxTo(newPositionX) {
+			function moveBoxTo(newPositionX, newPositionY) {
 				box.css("left", newPositionX);
+				box.css("top", newPositionY)
 			}
 
 			// changes the text displayed on the Box
@@ -62,17 +66,34 @@
 			//////////////////////////////////////////////////////////////////
 			
 			// TODO 2 - Variable declarations 
-			
+			var positionX = 0;
+			var points = 0;
+			var speed = 10;
+			var boardWidth = jQuery(window).width();
+			var boardHeight = jQuery(window).height(); 
+			var positionY = 0;
+			var speedY= 10;
 
-			
 			/* 
 			This Function will be called 20 times/second. Each time it is called,
 			it should move the Box to a new location. If the box drifts off the screen
 			turn it around! 
 			*/
 			function update() {
-				
+				positionX += speed;
+				positionY += speedY;
+				moveBoxTo(positionX, positionY)
 
+				if (positionX >= boardWidth) {
+					speed *= -1;
+				} else if (positionX <= 0) {
+					speed *= -1;
+				} else if (positionY >= boardHeight) {
+					//speed *= 1;
+					speedY *= -1;
+				} else if (positionY < 0) {
+					speedY *= -1;
+				}
 			};
 
 			/* 
@@ -81,8 +102,12 @@
 			the left side of the screen.
 			*/
 			function handleBoxClick() {
-				
-
+				positionX = Math.random() * (boardWidth - 0) + 0;
+				positionY = Math.random() * (boardHeight - 0) + 0;
+				points++;
+				speed += 10;
+				speedY += 10;
+				changeBoxText(points);
 
 			};
 		})();

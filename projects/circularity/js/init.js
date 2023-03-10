@@ -3,7 +3,6 @@ var init = function (window) {
     var 
         draw = window.opspark.draw,
         physikz = window.opspark.racket.physikz,
-        
         app = window.opspark.makeApp(),
         canvas = app.canvas, 
         view = app.view,
@@ -11,7 +10,6 @@ var init = function (window) {
         
     
     window.opspark.makeGame = function() {
-        
         window.opspark.game = {};
         var game = window.opspark.game;
         
@@ -20,13 +18,21 @@ var init = function (window) {
         ////////////////////////////////////////////////////////////
         
         // TODO 1 : Declare and initialize our variables
-
-
-        // TODO 2 : Create a function that draws a circle 
+        var circle;       // declare circle variable
+        var circles = [];  // declare array to store circles
         
+        // TODO 2 : Create a function that draws a circle 
+        function drawCircle() {           // Code to draw a circle
+            circle = draw.randomCircleInArea(canvas, true, true, '#999', 2);    // calls a function from lib to make a random circle at a random spot
+            physikz.addRandomVelocity(circle, canvas);                          // add random velocity to circles
+            view.addChild(circle);                                              // view is given the child "cricle"
+            circles.push(circle);                                               // adds the circle to the circles array
+        }   
 
         // TODO 3 / 7 : Call the drawCircle() function 
-
+        for (var loopsCompleted = 0; loopsCompleted <100; loopsCompleted++) {           // loop to iterate through array to draw 1000 circles
+            drawCircle();                                                                // calls drawCircle function (see comments on lines 27-31 for details)
+        }
 
         ////////////////////////////////////////////////////////////
         ///////////////// PROGRAM LOGIC ////////////////////////////
@@ -39,31 +45,33 @@ var init = function (window) {
         */
         function update() {
             // TODO 4 : Update the circle's position //
-
-            
             // TODO 5 / 10 : Call game.checkCirclePosition() on your circles.
-           
-
-            // TODO 9 : Iterate over the array
-           
-            
+            // TODO 8 : Iterate over the array
+            for (var i = 0; i < circles.length; i++) { 
+                var eachCircle = circles[i];              
+                physikz.updatePosition(eachCircle)        
+                game.checkCirclePosition(eachCircle)      
+            }
+          
         }
-    
         /* 
         This Function should check the position of a circle that is passed to the 
         Function. If that circle drifts off the screen, this Function should move
         it to the opposite side of the screen.
         */
-        game.checkCirclePosition = function(circle) {
-
-            // if the circle has gone past the RIGHT side of the screen then place it on the LEFT
-            if ( circle.x > canvas.width ) {
+        game.checkCirclePosition = function(circle) {   // checks position of circle
+            // if circle goes too far right, move it back to the left
+            if (circle.x > canvas.width ) {
                 circle.x = 0;
             }
-            
             // TODO 6 : YOUR CODE STARTS HERE //////////////////////
-            
-
+            if (circle.x < 0) {                         // if circle moves to far left, move it to the right
+                circle.x = canvas.width;       
+            } else if (circle.y < 0) {                  // if circle goes too far up, move it down 
+                circle.y = canvas.height;     
+            } else if (circle.y > canvas.height) {      // if cirlce moves too far down, move it to the top
+                circle.y = 0;                 
+            }                                 
 
             // YOUR TODO 6 CODE ENDS HERE //////////////////////////
         }

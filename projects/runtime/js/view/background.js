@@ -1,4 +1,4 @@
-var background = function (window) {
+var background = (window) => {
     'use strict';
     
     window.opspark = window.opspark || {};
@@ -8,7 +8,7 @@ var background = function (window) {
     /*
      * Create a background view for our game application
      */
-    window.opspark.makeBackground = function(app,ground) {
+    window.opspark.makeBackground = (app,ground) => {
         /* Error Checking - DO NOT DELETE */
         if(!app) {
             throw new Error("Invalid app argument");
@@ -28,6 +28,7 @@ var background = function (window) {
         // ANIMATION VARIABLES HERE:
         
         var tree;
+        var house;
         var buildings = [];
 
         // called at the start of game and whenever the page is resized
@@ -43,13 +44,13 @@ var background = function (window) {
 
             // TODO: 3 - Add a moon and starfield
             for (var i = 0; i < 100; i++) {
-                var circle = draw.circle(5, "white", "LightGray", 2); // draws a cirlce and stores it in the circle variable
+                var circle = draw.bitmap("img/john.png"); // draw.circle(5, "white", "LightGray", 2); // draws a cirlce and stores it in the circle variable
                 circle.x = canvasWidth * Math.random(); // takes the width of the canvas and multiplies times a random decimal and 
                 circle.y = groundY * Math.random(); // takes groundY and multiplies i times a random decimal and stores
                 background.addChild(circle); // adds that circle to the background as a child
             }
 
-            var moon = draw.bitmap("img/moon.png");
+            var moon = draw.bitmap("img/john.png");
             moon.x = canvasWidth - 500; // creates an x key for the moon object and assigns it a value
             moon.y = 50; // creates an y key for the moon object and assigns it a value
             moon.scaleX = 1; // scale the x value of the moon
@@ -74,6 +75,10 @@ var background = function (window) {
             tree.y = groundY - 240; // sets the y value of the tree
             background.addChild(tree); // adds the tree to the background as a child
             
+            house = draw.bitmap("img/jHouse.png"); // draws a tree using bitmap and stores it to the variable tree
+            house.x = 0; // sets the x value of the tree
+            house.y = groundY - 240; // sets the y value of the tree
+            background.addChild(house); // adds the tree to the background as a child
         } // end of render function - DO NOT DELETE
         
         
@@ -87,9 +92,13 @@ var background = function (window) {
             
             // TODO 4: Part 2 - Move the tree!
             tree.x -= 1;
-
+            house.x -= 1;
             if (tree.x < -200) {
               tree.x = canvasWidth;
+            }
+
+            if (house.x < -1000) {
+                house.x = canvasWidth;
             }
             
             // TODO 5: Part 2 - Parallax

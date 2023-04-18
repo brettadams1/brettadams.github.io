@@ -37,19 +37,34 @@ var level01 = (window) => {
                     "y": groundY - 10 
                 },
                 { 
-                    "type": "enemy", 
-                    "x": 300, 
-                    "y": groundY - 50 
+                    "type": "reward", 
+                    "x": 400, 
+                    "y": groundY - 30 
                 },
                 { 
                     "type": "reward", 
                     "x": 600, 
-                    "y": groundY - 500 
+                    "y": groundY - 20 
                 },
                 { 
                     "type": "reward", 
-                    "x": 500, 
-                    "y": groundY - 500 
+                    "x": 800, 
+                    "y": groundY - 35 
+                },
+                { 
+                    "type": "reward", 
+                    "x": 1000, 
+                    "y": groundY - 27 
+                },
+                { 
+                    "type": "reward", 
+                    "x": 1200, 
+                    "y": groundY - 50 
+                },
+                { 
+                    "type": "car", 
+                    "x": 1700, 
+                    "y": groundY - 50 
                 },
             ]
         };
@@ -87,6 +102,26 @@ var level01 = (window) => {
             obstacleImage.y = -25;
         }
 
+        function createCar(x, y) {
+            var enemy = game.createGameItem("car", 25);
+            var car = draw.bitmap("img/car.png", 25)
+            car.x = -25;
+            car.y = -25;
+            enemy.addChild(car);
+            enemy.x = x;
+            enemy.y = groundY - 50;
+            game.addGameItem(enemy);
+            enemy.velocityX = -1;
+    
+            enemy.onProjectileCollision = () => {
+                game.increaseScore(100);
+                enemy.fadeOut();
+            }
+            enemy.onPlayerCollision = () => {
+                game.changeIntegrity(-500)
+            }
+        }
+
         function createSpikes(x, y) {
             var hitZoneSize = 25; // the size of the hitzone assigned to the variable hitzone
             var damageFromObstacle = 10; // sets the damage amount and assigns to a variable called 
@@ -100,7 +135,7 @@ var level01 = (window) => {
             obstacleImage.y = -25;
         }
         
-
+        
         function createEnemy(x, y) {
             var enemy = game.createGameItem("enemy", 25);
             var redSquare = draw.rect(50, 50, "red");
@@ -120,28 +155,20 @@ var level01 = (window) => {
                 game.increaseScore(100);
                 enemy.fadeOut();
             }
-        }
+        } 
 
         function createReward(x, y) {
             var reward = game.createGameItem("reward", 25);
+            var money = draw.bitmap("img/moneymoney.png", 25)
+            money.x = -25;
+            money.y = -25;
+            reward.addChild(money);
+            reward.x = x;
+            reward.y = groundY - 50;
+            game.addGameItem(reward);
             reward.velocityX = -1;
     
-            var hitZoneSize = 25; // the size of the hitzone assigned to the variable hitzone
-            var damageFromObstacle = 10; // sets the damage amount and assigns to a variable called 
-            var rewardHitZone = game.createObstacle(hitZoneSize, damageFromObstacle);
-            rewardHitZone.x = x;
-            rewardHitZone.y = y;
-            game.addGameItem(rewardHitZone);
-            var rewardImage = draw.bitmap("img/moneymoney.png"); // draws the image as a  bitmap and stores it to the variable obstacleImage
-            rewardHitZone.addChild(rewardImage);
-            rewardImage.x = -25;
-            rewardImage.y = -25;
-
             reward.onPlayerCollision = () => {
-                game.changeIntegrity(10)
-            };
-    
-            reward.onProjectileCollision = () => {
                 game.increaseScore(100);
                 reward.fadeOut();
             }
@@ -151,7 +178,7 @@ var level01 = (window) => {
         for (var i = 0; i < levelData.gameItems.length; i++){
             var gameItem = levelData.gameItems[i]; // assigns the current index of the gameItem array to the 
         
-            switch(gameItem.type){
+            switch(gameItem.type) {
                 case "tub":
                     createTub(gameItem.x, gameItem.y);
                     break;
@@ -166,6 +193,9 @@ var level01 = (window) => {
                     break;
                 case "spikes":
                     createSpikes(gameItem.x, gameItem.y);
+                    break;
+                case "car":
+                    createCar(gameItem.x, gameItem.y)
                     break;
                 default:
                     console.log("Invalid gameItem inputted.");

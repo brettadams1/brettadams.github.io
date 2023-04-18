@@ -58,7 +58,7 @@ var background = (window) => {
             background.addChild(moon); // add the value of moon as a child to background
             
             // TODO 5: Part 1 - Add buildings!     Q: This is before TODO 4 for a reason! Why?
-            
+            /*
             for (var i = 0; i < 5; i++) {
                 var buildingHeight = [100, 200, 300, 400, 500]; // creates variable called buildingHeight and stores 300 as the height of the building
                 var building = draw.rect(75, buildingHeight[i], "LightGray", "Black", 1); // draws a rectangle and stores 
@@ -67,13 +67,13 @@ var background = (window) => {
                 background.addChild(building); // add the building as a child to the background
                 buildings.push(building); // adds the buildings to the buildings array
             }
-            
+            */
            
             // TODO 4: Part 1 - Add a tree
             tree = draw.bitmap("img/tree.png"); // draws a tree using bitmap and stores it to the variable tree
             tree.x = 0; // sets the x value of the tree
             tree.y = groundY - 240; // sets the y value of the tree
-            background.addChild(tree); // adds the tree to the background as a child
+            // background.addChild(tree); // adds the tree to the background as a child
             
             house = draw.bitmap("img/jHouse.png"); // draws a tree using bitmap and stores it to the variable tree
             house.x = 0; // sets the x value of the tree

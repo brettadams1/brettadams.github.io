@@ -5,9 +5,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // HTML jQuery Objects
+
 var board = $("#board");
 var scoreElement = $("#score");
 var highScoreElement = $("#highScore");
+highScoreElement.html("High Score: " + calculateHighScore())
 
 // TODO 4a: Create the snake, apple and score variables
 // Game Variables

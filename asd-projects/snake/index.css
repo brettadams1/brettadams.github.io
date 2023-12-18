@@ -1,12 +1,12 @@
-
 body {
-  background-color: darkgreen;
+  background-color: rgb(60, 62, 107);
 }
 
 #board {
   width: 440px;
   height: 440px;
   border: 1px solid white;
+  border-radius: 30px;
   background-color: black;
 }
 
@@ -33,5 +33,6 @@ body {
 
 .apple {
   background-color: red;
+  border-radius: 5px;
   z-index: 1;
 }

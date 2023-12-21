@@ -262,7 +262,6 @@ function endGame() {
   scoreElement.text("Score: 0");
   score = 0;
 
-
   // restart the game after 500 ms
   setTimeout(init, 500);
 }
@@ -364,6 +363,10 @@ function getRandomAvailablePosition() {
     randomPosition.column = Math.floor(Math.random() * COLUMNS);
     randomPosition.row = Math.floor(Math.random() * ROWS);
     spaceIsAvailable = true;
+
+    if (randomPosition.column === undefined || randomPosition.row === undefined) {
+      spaceIsAvailable = false;
+    }
 
     /*
     TODO 13: After generating the random position determine if that position is

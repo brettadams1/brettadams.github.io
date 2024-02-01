@@ -4,10 +4,10 @@ $(document).ready(runProgram); // Wait for all HTML/CSS elements to be loaded be
 
 function runProgram() {
   // CONSTANTS AND VARIABLES DECLARATION
-
+  
   // Frame settings
-  const FRAME_RATE = 60;
-  const FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
+  const FRAME_RATE = 60; // number of frames per second
+  const FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE; // time between frames in milliseconds
 
   // Key codes for arrow keys
   const KEY = {
@@ -23,10 +23,10 @@ function runProgram() {
 
   // Walker object containing initial values and speeds
   let walker = {
-    xCoord: 0,
-    yCoord: 0,
-    xSpeed: 0,
-    ySpeed: 0
+    xCoord: 0, // current horizontal position
+    yCoord: 0, // current vertical position
+    xSpeed: 0, // change in horizontal position per frame
+    ySpeed: 0 // change in vertical position per frame
   };
 
   let PLAYER2 = {
@@ -35,12 +35,13 @@ function runProgram() {
     xSpeed: 0,
     ySpeed: 0
   };
+
   // Set up functions execution intervals
-  var interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);
+  var interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL); // call newFrame every FRAMES_PER_SECOND_INTERVAL ms
 
   // Event listeners registration
-  $(document).on('keydown', handleKeyDown);
-  $(document).on('keyup', handleKeyUp);
+  $(document).on('keydown', handleKeyDown); // register keydown event listener
+  $(document).on('keyup', handleKeyUp); // register keyup event listener
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
@@ -49,10 +50,10 @@ function runProgram() {
   Function called on each timer tick. Performs game logic.
   */
   function newFrame() {
-    repositionGameItem()
-    redrawGameItem()
-    wallCollision()
-    randomColor()
+    repositionGameItem() // update positions of game items
+    redrawGameItem() // redraw game items at their updated positions
+    wallCollision() // check for collisions with walls
+    randomColor() // randomly generate colors for game items upon click
   }
 
   /* 
@@ -61,28 +62,28 @@ function runProgram() {
   function handleKeyDown(event) {
     switch (event.which) {
       case KEY.LEFT:
-        walker.xSpeed = -5;
+        walker.xSpeed = -5; // move left
         break;
       case KEY.UP:
-        walker.ySpeed = -5;
+        walker.ySpeed = -5; // move up
         break;
       case KEY.RIGHT:
-        walker.xSpeed = 5;
+        walker.xSpeed = 5; // move right
         break;
       case KEY.DOWN:
-        walker.ySpeed = 5;
+        walker.ySpeed = 5; // move down
         break;
       case KEY.A:
-        PLAYER2.xSpeed = -5;
+        PLAYER2.xSpeed = -5; // move player 2 left
         break;
       case KEY.W:
-        PLAYER2.ySpeed = -5;
+        PLAYER2.ySpeed = -5; // move player 2 up
         break;
       case KEY.D:
-        PLAYER2.xSpeed = 5;
+        PLAYER2.xSpeed = 5; // move player 2 right
         break;
       case KEY.S:
-        PLAYER2.ySpeed = 5;
+        PLAYER2.ySpeed = 5; // move player 2 down
         break;
       default:
         break;
@@ -92,31 +93,25 @@ function runProgram() {
   function handleKeyUp(event) {
     switch (event.which) {
       case KEY.LEFT:
-        walker.xSpeed = 0;
+        walker.xSpeed = 0; // stop moving horizontally
         break;
       case KEY.UP:
-        walker.ySpeed = 0;
+        walker.ySpeed = 0; // stop moving vertically
         break;
       case KEY.RIGHT:
-        walker.xSpeed = 0;
+        walker.xSpeed = 0; // stop moving horizontally
         break;
       case KEY.DOWN:
-        walker.ySpeed = 0;
+        walker.ySpeed = 0; // stop moving vertically
         break;
       case KEY.A:
-        PLAYER2.xSpeed = 0;
+        PLAYER2.xSpeed = 0; // stop moving player 2 horizontally
         break;
       case KEY.W:
-        PLAYER2.ySpeed = 0;
+        PLAYER2.ySpeed = 0; // stop moving player 2 vertically
         break;
       case KEY.D:
-        PLAYER2.xSpeed = 0;
-        break;
-      case KEY.S:
-        PLAYER2.ySpeed = 0;
-        break;
-      default:
-        break;
+        PLAYER2.xSpeed = 0; // stop moving player 2 horizontally
     }
   }
 

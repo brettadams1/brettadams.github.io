@@ -12,27 +12,30 @@ function runProgram(){
   const FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
   const BOARD_WIDTH = $("#board").width();
   const BOARD_HEIGHT = $("#board").height();
-  const BALL_SPEED = 5;
-  
+  let winner;
+  let player1Score = $("#player1Score");
+  let player2Score = $("#player2Score");
   // Game Item Objects
   let player1 = {
     ID: "#player1",
     xCoord: 25,
     yCoord: 350,
-    ySpeed: 0
+    ySpeed: 0,
+    score: 0
   }
 
   let player2 = {
     ID: "#player2",
     xCoord: 1850,
     yCoord: 350,
-    ySpeed: 0
+    ySpeed: 0,
+    score: 0
   }
 
   let ball = {
     ID: "#ball",
     xCoord: BOARD_WIDTH / 2,
-    yCoord:BOARD_HEIGHT / 2,
+    yCoord: BOARD_HEIGHT / 2,
     xSpeed: 0,
     ySpeed: 0
   }
@@ -44,7 +47,6 @@ function runProgram(){
     S: 83,
     SPACE: 32
   };
-
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
@@ -54,12 +56,12 @@ function runProgram(){
   by calling this function and executing the code inside.
   */
   let newFrame = () => {
+    checkScore()
     repositionGameItem()
     drawItem()
     checkBoundaries(player1)
     checkBoundaries(player2)
     checkBoundaries(ball)
-
   }
   
   /* 
@@ -72,7 +74,7 @@ function runProgram(){
     $("#player2").css("top", player2.yCoord);
     $("#ball").css("left", ball.xCoord);
     $("#ball").css("top", ball.yCoord);
-  
+
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -81,20 +83,20 @@ function runProgram(){
   let handleKeyDown = (e) => {
     switch (e.which) {
       case KEY.W:
-        player1.ySpeed = -5; // move up
+        player1.ySpeed = -8; // move up
         break;
       case KEY.S:
-        player1.ySpeed = 5; // move down
+        player1.ySpeed = 8; // move down
         break;
       case KEY.UP:
-        player2.ySpeed = -5; // move player 2 up
+        player2.ySpeed = -8; // move player 2 up
         break;
       case KEY.DOWN:
-        player2.ySpeed = 5; // move player 2 right
+        player2.ySpeed = 8; // move player 2 right
         break;
       case KEY.SPACE:
-        ball.xSpeed = 1
-        ball.ySpeed = 1
+        ball.xSpeed = 10
+        ball.ySpeed = 10
       default:
         break;
     }
@@ -118,18 +120,59 @@ function runProgram(){
         break;
     }
   }
+  
 
   let checkBoundaries = (item) => {
-    if (item.yCoord > BOARD_HEIGHT- $(item.ID).height() || item.yCoord < 0) {
-      item.yCoord -= item.ySpeed;
+    if (
+      item.yCoord > BOARD_HEIGHT - $(item.ID).height() ||
+      item.yCoord < 0
+    ) {
+      if (item.ID === ball.ID) {
+        item.ySpeed *= -1;
+      } else {
+        item.yCoord -= item.ySpeed;
+      }
     }
-    if (item.xCoord > BOARD_WIDTH - $(item.ID).width() || item.xCoord < 0) {
-      item.xCoord -= item.xSpeed;
-    }
-  }
 
-  let ballFunction = () => {
-    
+    if (item.ID === ball.ID) {
+      if (
+        item.xCoord < player1.xCoord + $(player1.ID).width() &&
+        item.xCoord + $(item.ID).width() > player1.xCoord &&
+        item.yCoord < player1.yCoord + $(player1.ID).height() &&
+        item.yCoord + $(item.ID).height() > player1.yCoord
+      ) {
+        item.xSpeed *= -1; 
+      }
+
+      if (
+        item.xCoord < player2.xCoord + $(player2.ID).width() &&
+        item.xCoord + $(item.ID).width() > player2.xCoord &&
+        item.yCoord < player2.yCoord + $(player2.ID).height() &&
+        item.yCoord + $(item.ID).height() > player2.yCoord
+      ) {
+        item.xSpeed *= -1; 
+      }
+    }
+    if (item.xCoord > BOARD_WIDTH - $(item.ID).width()) {
+      player1.score++;
+      item.xSpeed *= -1;
+      resetBoard()
+      console.log(player1.score)
+    } else if (item.xCoord < 0) {
+      player2.score++;
+      resetBoard()
+      console.log(player2.score)
+    }
+  };
+  
+  let checkScore = () => {
+    if (player1.score === 11) {
+      winner = "Player 1"
+      endGame()
+    } else if (player2.score === 11) {
+      winner = "Player 2"
+      endGame()
+    }
   }
 
   let repositionGameItem = () => {
@@ -139,16 +182,30 @@ function runProgram(){
     ball.yCoord += ball.ySpeed
   }
 
+  let resetBoard = () => {
+    ball.xCoord = BOARD_WIDTH / 2
+    ball.yCoord = BOARD_HEIGHT / 2
+    ball.xSpeed = 0
+    ball.ySpeed = 0
+    player1.yCoord = 350
+    player2.yCoord = 350
+    player1Score.text(player1.score)
+    player2Score.text(player2.score)
+  }
+
   // one-time setup
   let interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL);   // execute newFrame every 0.0166 seconds (60 Frames per second)
   $(document).on('keydown', handleKeyDown);
   $(document).on('keyup', handleKeyUp); 
 
   function endGame() {
+
     // stop the interval timer
     clearInterval(interval);
 
     // turn off event handlers
     $(document).off();
+    $("body").html(`<span style="color: white">${winner} Wins!<br>Refresh the page to play again!</span>`);
+    
   }
 }

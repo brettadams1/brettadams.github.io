@@ -1,5 +1,5 @@
 body {
-  background-color: darkgreen;
+  background-image: url("img/blue.jpg")
 }
 
 #board {
@@ -35,4 +35,16 @@ body {
   height: 20px;
   width: 20px;
   position: absolute;
+}
+
+#player1Score {
+  color: white;
+  font-size: 50px;
+  float: left;
+}
+
+#player2Score {
+  color: white;
+  float: right;
+  font-size: 50px;
 }

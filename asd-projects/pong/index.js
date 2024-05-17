@@ -205,7 +205,7 @@ function runProgram(){
 
     // turn off event handlers
     $(document).off();
-    $("body").html(`<span style="color: white">${winner} Wins!<br>Refresh the page to play again!</span>`);
+    $("body").html(`<span style="color: white">${winner} Wins! Refresh the page to play again!</span>`);
     
   }
 }

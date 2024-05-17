@@ -2,6 +2,13 @@ body {
   background-image: url("img/blue.jpg")
 }
 
+#title {
+  font-family: monospace;
+  text-align: center;
+  font-size: 75px;
+  color: white
+}
+
 #board {
   position: absolute;
   width: 1900px;
